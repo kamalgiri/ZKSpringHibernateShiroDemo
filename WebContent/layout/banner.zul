@@ -1,0 +1,21 @@
+<div hflex="1" vflex="1" sclass="banner">
+
+
+	<hbox hflex="1" vflex="1" align="center">
+
+		<div width="400px">
+			<label value="JunkiriSoft" sclass="banner-head" />
+		</div>
+		<hbox hflex="1" vflex="1" pack="end" align="end"
+			apply="org.zkoss.bind.BindComposer"
+			viewModel="@id('vm') @init('com.kg.demo.mvvm.LogOutViewModel')">
+
+			<label value="@load(vm.userName)" />
+			<button onClick="@command('logout')" width="60px">
+				Logout
+			</button>
+		</hbox>
+	</hbox>
+
+
+</div>

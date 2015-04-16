@@ -1,0 +1,124 @@
+<?page title="User" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<window title="User" border="normal" vflex="200"
+		apply="org.zkoss.bind.BindComposer"
+		viewModel="@id('vm') @init('com.kg.demo.mvvm.UserViewModel')"> 
+		<grid width="450px"
+			form="@id('fx') @load(vm.userDetail) @save(vm.userDetail, before='saveUser') @validator(vm.userDetailValidator)">
+			<columns>
+				<column label="Option" width="100px" />
+				<column label="Input" />
+			</columns>
+			<rows>
+				<row>
+					Name :
+					<!--  visible = @load(vm.mode)  -->
+					<hbox>
+						<textbox width="150px" id="name"
+							value="@bind(fx.name)"
+							onBlur="@command('validateUserForm',parameter=self.value)" />
+						<label id="errName" value="@load(vm.errName)"
+							style="color: red;" />
+
+					</hbox>
+				</row>
+				<row>
+					Password :
+					<hbox>
+						<textbox id="passWord" type="password"
+							value="@bind(fx.password)" width="150px" />
+						<label id="errPassword"
+							value="@load(vm.errPassword)" style="color: red;" />
+					</hbox>
+
+
+
+				</row>
+
+				<row>
+					Role :
+
+					<!--
+						value="@load(fx.role.name)" : will be used to display value selected in role combo when any item in grid is clicked 
+						selectedItem="@bind(fx.role)": will be used get role object when any role is selected in role combo
+					-->
+					<combobox model="@bind(vm.rolesModel)" id="role"
+						value="@load(fx.role.name)" selectedItem="@bind(fx.role)"
+						constraint="no empty">
+						<!--  
+							<comboitem   label="Simple and Rich"
+							description="The simplest way to make Web applications rich" />
+							<comboitem label="Cool!"
+							description="The coolest technology" />
+							<comboitem label="Ajax and RIA"
+							description="Rich Internet Application by Ajax" />
+						-->
+
+						<template name="model">
+							<comboitem label="@bind(each.name)"
+								description="@bind(each.description)">
+							</comboitem>
+						</template>
+
+
+					</combobox>
+
+				</row>
+
+				<row>
+					<hbox>
+						<label id="responseMsg" style="color: red;" />
+					</hbox>
+				</row>
+
+				<row spans="2" align="right">
+					<hlayout>
+						<button onClick="@command('saveUser')"
+							label="Save" />
+					</hlayout>
+				</row>
+
+
+			</rows>
+		</grid>
+ 
+
+		<radiogroup
+			onCheck="tree.pagingPosition = self.selectedItem.label;listbox.pagingPosition = self.selectedItem.label">
+			<radio label="top" />
+			<radio label="bottom" checked="true" />
+			<radio label="both" />
+		</radiogroup>
+		<separator />
+		<button label="Change Paging Mold">
+			<attribute name="onClick">
+	listbox.pagingChild.mold = "os".equals(listbox.pagingChild.mold) ? "default"
+			: "os";
+</attribute>
+		</button>
+
+		<listbox model="@bind(vm.userDetailListModel)" id="listbox"
+			mold="paging" pageSize="10" vflex="1">
+			<listhead>
+			<listheader label="User Name"/>
+			<listheader label="Role"/>
+			<listheader label="Action"/>
+			</listhead>
+	
+			<template name="model">
+		
+				<listitem>
+					<listcell label="@bind(each.name)"
+						onClick="@command('editUser',userDetail=each)" />
+					<listcell label="@bind(each.role.getName())"
+						onClick="@command('editUser',userDetail=each)" />
+					<listcell>
+						<button onClick="@command('deleteUser', userDetail=each)"
+							label="Delete" />
+					</listcell>
+				</listitem>
+			</template>
+		</listbox>
+	</window>
+
+</zk>

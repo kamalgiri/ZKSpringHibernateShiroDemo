@@ -1,0 +1,86 @@
+<?page title="Profile" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+
+	<zscript>
+	<![CDATA[
+	import org.apache.shiro.SecurityUtils;
+	import org.apache.shiro.session.Session;
+	import org.apache.shiro.subject.Subject;
+	import com.kg.demo.model.UserDetail;
+	UserDetail user = null;
+	String userName = null;
+	String roleName = null;
+	try {
+		Subject sub = SecurityUtils.getSubject();
+		Session ses = sub.getSession();
+		user = (UserDetail) ses.getAttribute("loggedUser");
+		userName = user.getName();
+		roleName = user.getRole().getName();
+	} catch (Exception e) {
+	}
+]]>
+</zscript>
+	<window title="Profile" border="normal" vflex="800"
+		apply="com.kg.demo.controller.ProfileController">
+		<grid width="450px">
+			<columns>
+				<column label="Option" width="100px" />
+				<column label="Input" />
+			</columns>
+			<rows>
+				<row>
+					Name :
+					<hbox>
+						<label value="${userName}" if="${user != null}" />
+						<textbox width="150px" id="name"
+							constraint="no empty" if="${user == null}" />
+
+					</hbox>
+				</row>
+				<row>
+					Password :
+					<hbox>
+						<textbox id="passWord" type="password"
+							width="150px" constraint="no empty" />
+					</hbox>
+				</row>
+
+				<row>
+					Role :
+					<label value="${roleName}" if="${user != null}" />
+					<combobox id="role" constraint="no empty"
+						if="${user == null}">
+						<!--  
+							<comboitem   label="Simple and Rich"
+							description="The simplest way to make Web applications rich" />
+							<comboitem label="Cool!"
+							description="The coolest technology" />
+							<comboitem label="Ajax and RIA"
+							description="Rich Internet Application by Ajax" />
+						-->
+					</combobox>
+
+				</row>
+				
+				<row>
+				<hbox>
+						<label id="responseMsg" style="color: red;" />
+					</hbox>
+				</row>
+
+				<row spans="2" align="right">
+					<hlayout>
+						<button id="save" label="Save"
+							if="${user == null}" />
+						<button id="update" label="Update"
+							if="${user != null}" />
+					</hlayout>
+				</row>
+
+
+			</rows>
+		</grid>
+
+	</window>
+</zk>

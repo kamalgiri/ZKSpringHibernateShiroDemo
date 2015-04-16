@@ -1,0 +1,8 @@
+<?page title="Auto Generated index.zul"?>
+<window title="index" border="normal" vflex="800"
+	apply="com.kg.demo.controller.RoleController">
+
+	<label value="You are using: ${desktop.webApp.version}" />
+
+	Login
+</window>

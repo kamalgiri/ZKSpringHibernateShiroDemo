@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd"
+	xmlns:context="http://www.springframework.org/schema/context">
+   
+	<context:annotation-config />	
+   
+	<context:component-scan
+		base-package="com.kg.demo.util,com.kg.demo.dao.impl,com.kg.demo.model.dao.impl,com.kg.demo.service.impl,com.kg.demo.controller" />
+
+	<bean class="org.springframework.context.annotation.CommonAnnotationBeanPostProcessor" />
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/kamal_db" />
+		<property name="username" value="kamal" />
+		<property name="password" value="giri" />
+	</bean>
+	
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.kg.demo.model" />
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect"> org.hibernate.dialect.MySQLDialect </prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="sessionFactoryUtil" class="com.kg.demo.util.SessionFactoryUtil">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+	
+	<bean id="txManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	
+</beans>

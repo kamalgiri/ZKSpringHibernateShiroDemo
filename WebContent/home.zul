@@ -1,0 +1,6 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+<window id="mainContent" title="Home" border="normal">
+Cheers
+</window>
+</zk>

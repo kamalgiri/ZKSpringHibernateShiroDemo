@@ -1,0 +1,52 @@
+<?page title="Login Page" contentType="text/html;charset=UTF-8"?>
+<zk>
+
+	<window title="Login Page" border="normal" draggable="true"
+		droppable="true" position="center"
+		apply="com.kg.demo.controller.LoginController">
+
+	
+			<grid width="300px" vflex="300">
+				<columns>
+					<column label="Option" width="100px" />
+					<column label="Input" />
+				</columns>
+				<rows>
+					<row>
+						Name :
+						<hbox>
+							<textbox width="150px" id="name"
+								constraint="no empty" />
+
+						</hbox>
+					</row>
+					<row>
+						Password :
+						<hbox>
+							<textbox id="passWord" type="password"
+								width="150px" constraint="no empty" />
+						</hbox>
+					</row>
+
+					<row spans="2">
+						<hbox>
+							<label id="error" style="color: red;" />
+						</hbox>
+					</row>
+
+
+
+					<row spans="2" align="right">
+						<hlayout>
+							<button id="login" label="Login" />
+						</hlayout>
+					</row>
+
+
+				</rows>
+			</grid>
+	
+
+	</window>
+
+</zk>
